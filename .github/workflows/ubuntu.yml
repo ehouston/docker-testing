@@ -1,1 +1,19 @@
+name: Run Linux Commands in Docker
+
+on: [push]
+
+jobs:
+  run-in-docker:
+    # Use a standard Linux runner provided by GitHub
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Run commands in a specific Docker container
+      # This action uses a specific Docker image
+      uses: docker://ubuntu:latest
+      with:
+        # Commands to run in the container
+        args: echo "Hello from within the Ubuntu container!" && ls -la
 
