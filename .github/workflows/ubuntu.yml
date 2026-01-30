@@ -2,6 +2,23 @@ name: Run Linux Commands in Docker
 
 on: [push]
 
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        type: string
+
 jobs:
   run-in-docker:
     # Use a standard Linux runner provided by GitHub
