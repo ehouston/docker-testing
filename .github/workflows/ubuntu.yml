@@ -1,36 +1,14 @@
-name: Run Linux Commands in Docker
-
-on: [push]
-
-on:
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-        type: choice
-        options:
-        - info
-        - warning
-        - debug
-      environment:
-        description: 'Environment to deploy to'
-        required: true
-        type: string
+name: Interactive Ubuntu Docker
+on: [workflow_dispatch] # Allows you to start it manually
 
 jobs:
-  run-in-docker:
-    # Use a standard Linux runner provided by GitHub
+  interactive-shell:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Start Docker Container
+        run: |
+          # Run Ubuntu in background with sleep to keep it alive
+          docker run -d --name my-ubuntu ubuntu sleep infinity
 
-    - name: Run commands in a specific Docker container
-      # This action uses a specific Docker image
-      uses: docker://ubuntu:latest
-      with:
-        # Commands to run in the container
-        args: /bin/bash
-
+      - name: Setup Tmate Session
+        uses: mxschmitt/action-tmate@v3
